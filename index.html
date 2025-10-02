@@ -24,12 +24,32 @@ header {
   width: 100%;
   padding: 12px 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   background-color: rgba(10,0,0,0.9);
   box-shadow: 0 2px 15px rgba(255,0,0,0.3);
   z-index: 100;
 }
 
+/* ハンバーガーメニュー */
+#menuBtn {
+  width: 30px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#menuBtn span {
+  display: block;
+  height: 4px;
+  background-color: #ff4444;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* 検索ボックス */
 header input[type="text"] {
   padding: 8px 14px;
   font-size: 15px;
@@ -47,6 +67,35 @@ header input[type="text"] {
 header input[type="text"]:focus {
   box-shadow: 0 0 10px #ff4444;
   border-color: #ff6666;
+}
+
+/* サイドメニュー */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -220px;
+  width: 200px;
+  height: 100%;
+  background-color: #111;
+  border-right: 2px solid #ff2222;
+  box-shadow: 2px 0 15px rgba(255,0,0,0.4);
+  transition: 0.3s;
+  padding-top: 60px;
+  z-index: 150;
+}
+
+#sideMenu a {
+  display: block;
+  color: #ff4444;
+  text-decoration: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+#sideMenu a:hover {
+  background-color: rgba(255,0,0,0.2);
+  color: #fff;
 }
 
 /* メインコンテンツ */
@@ -161,10 +210,24 @@ mark {
 <body>
 
 <header>
+  <div id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <input type="text" id="searchBox" placeholder="検索...">
 </header>
 
+<!-- サイドメニュー -->
+<div id="sideMenu">
+  <a href="#manifest">manifest.json</a>
+  <a href="#setup">scriptAPI</a>
+</div>
+
 <main>
+  <h2 id="manifest">manifest.json の説明</h2>
+  <p>modやアドオンの基本情報をまとめるファイルです。</p>
+
   <h2 id="setup">ScriptAPIの初期設定</h2>
   <p>ScriptAPIを使うにはまずワールドにモジュールをインポートして初期化します。基本的なイベント購読もここで行えます。</p>
 
@@ -176,21 +239,6 @@ import { world } from "mojang-minecraft";
 
 world.events.entitySpawn.subscribe(event => {
     console.log("Entity spawned:", event.entity.id);
-});
-    </code></pre>
-  </div>
-
-  <h2 id="player">プレイヤー操作の例</h2>
-  <p>ワールド内のプレイヤー情報を取得したり、操作する場合のサンプルです。全プレイヤーの名前をコンソールに出力します。</p>
-
-  <div class="code-block">
-    <button class="copy-btn">コピー</button>
-    <pre><code class="language-js">
-// プレイヤー情報取得
-import { world } from "mojang-minecraft";
-
-world.getPlayers().forEach(player => {
-    console.log("Player name:", player.name);
 });
     </code></pre>
   </div>
@@ -216,6 +264,17 @@ document.querySelectorAll(".copy-btn").forEach(btn => {
   });
 });
 
+// サイドメニュー開閉
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+let menuOpen = false;
+
+menuBtn.addEventListener("click", () => {
+  menuOpen = !menuOpen;
+  sideMenu.style.left = menuOpen ? "0" : "-220px";
+});
+
+// 検索機能（見出し＋コード）
 let searchResults = [];
 let currentIndex = 0;
 const searchBox = document.getElementById("searchBox");
