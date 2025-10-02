@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScriptAPI メモ</title>
+
+<!-- Prism.js CSS -->
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet"/>
+
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 100;
+  }
+
+  header input[type="text"] {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #111;
+    color: #fff;
+  }
+
+  main {
+    padding: 60px 20px 20px 20px; /* headerの分の余白 */
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h2 {
+    margin-top: 40px;
+    color: #ffcc00;
+  }
+
+  pre {
+    background-color: #111;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <input type="text" id="searchBox" placeholder="検索...">
+</header>
+
+<main>
+  <h2 id="setup">ScriptAPIセットアップ</h2>
+  <pre><code class="language-js">
+// ここにScriptAPIの初期化コードを書く
+import { world } from "mojang-minecraft";
+
+world.events.entitySpawn.subscribe(event => {
+    console.log("Entity spawned:", event.entity.id);
+});
+  </code></pre>
+
+  <h2 id="player">プレイヤー情報取得</h2>
+  <pre><code class="language-js">
+import { world } from "mojang-minecraft";
+
+world.getPlayers().forEach(player => {
+    console.log("Player name:", player.name);
+});
+  </code></pre>
+
+  <h2 id="blocks">ブロック操作</h2>
+  <pre><code class="language-js">
+import { world } from "mojang-minecraft";
+
+const block = world.getDimension("overworld").getBlock({x:0, y:64, z:0});
+console.log(block.id);
+  </code></pre>
+</main>
+
+<!-- Prism.js -->
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-javascript.min.js"></script>
+
+<script>
+  const searchBox = document.getElementById("searchBox");
+
+  searchBox.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      const query = searchBox.value.trim().toLowerCase();
+      if (!query) return;
+
+      const headings = document.querySelectorAll("main h2");
+      for (let h of headings) {
+        if (h.textContent.toLowerCase().includes(query)) {
+          h.scrollIntoView({behavior: "smooth"});
+          h.style.backgroundColor = "#333"; // 強調
+          setTimeout(() => { h.style.backgroundColor = "transparent"; }, 2000);
+          break;
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
