@@ -38,7 +38,7 @@
   }
 
   main {
-    padding: 60px 20px 20px 20px; /* headerの分の余白 */
+    padding: 60px 20px 20px 20px;
     max-width: 900px;
     margin: auto;
   }
@@ -48,11 +48,38 @@
     color: #ffcc00;
   }
 
+  p {
+    margin: 10px 0 20px 0;
+    line-height: 1.5;
+  }
+
+  .code-block {
+    position: relative;
+    margin-bottom: 30px;
+  }
+
   pre {
     background-color: #111;
     padding: 10px;
     border-radius: 5px;
     overflow-x: auto;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #222;
+    border: none;
+    color: #fff;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+
+  .copy-btn:hover {
+    background-color: #555;
   }
 </style>
 </head>
@@ -63,32 +90,39 @@
 </header>
 
 <main>
-  <h2 id="setup">ScriptAPIセットアップ</h2>
-  <pre><code class="language-js">
-// ここにScriptAPIの初期化コードを書く
+  <!-- 説明1 -->
+  <h2 id="setup">ScriptAPIの初期設定</h2>
+  <p>ScriptAPIを使うにはまずワールドにモジュールをインポートして初期化します。基本的なイベント購読もここで行えます。</p>
+
+  <!-- コード1 -->
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+// ScriptAPI 初期設定例
 import { world } from "mojang-minecraft";
 
 world.events.entitySpawn.subscribe(event => {
     console.log("Entity spawned:", event.entity.id);
 });
-  </code></pre>
+    </code></pre>
+  </div>
 
-  <h2 id="player">プレイヤー情報取得</h2>
-  <pre><code class="language-js">
+  <!-- 説明2 -->
+  <h2 id="player">プレイヤー操作の例</h2>
+  <p>ワールド内のプレイヤー情報を取得したり、操作する場合のサンプルです。全プレイヤーの名前をコンソールに出力します。</p>
+
+  <!-- コード2 -->
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+// プレイヤー情報取得
 import { world } from "mojang-minecraft";
 
 world.getPlayers().forEach(player => {
     console.log("Player name:", player.name);
 });
-  </code></pre>
-
-  <h2 id="blocks">ブロック操作</h2>
-  <pre><code class="language-js">
-import { world } from "mojang-minecraft";
-
-const block = world.getDimension("overworld").getBlock({x:0, y:64, z:0});
-console.log(block.id);
-  </code></pre>
+    </code></pre>
+  </div>
 </main>
 
 <!-- Prism.js -->
@@ -96,8 +130,8 @@ console.log(block.id);
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-javascript.min.js"></script>
 
 <script>
+  // 検索機能
   const searchBox = document.getElementById("searchBox");
-
   searchBox.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
       const query = searchBox.value.trim().toLowerCase();
@@ -107,12 +141,23 @@ console.log(block.id);
       for (let h of headings) {
         if (h.textContent.toLowerCase().includes(query)) {
           h.scrollIntoView({behavior: "smooth"});
-          h.style.backgroundColor = "#333"; // 強調
+          h.style.backgroundColor = "#333";
           setTimeout(() => { h.style.backgroundColor = "transparent"; }, 2000);
           break;
         }
       }
     }
+  });
+
+  // コピー機能
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const code = btn.nextElementSibling.querySelector("code").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = "コピー完了!";
+        setTimeout(() => { btn.textContent = "コピー"; }, 1500);
+      });
+    });
   });
 </script>
 
