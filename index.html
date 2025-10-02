@@ -98,7 +98,11 @@ pre {
   transition: background-color 0.5s;
 }
 
-/* 矢印ナビ */
+mark {
+  background-color: rgba(255,0,0,0.5);
+  color: #fff;
+  border-radius: 2px;
+}
 #searchNav {
   position: fixed;
   bottom: 20px;
@@ -163,7 +167,6 @@ world.getPlayers().forEach(player => {
   </div>
 </main>
 
-<!-- 矢印ナビ -->
 <div id="searchNav">
   <button id="prev">↑</button>
   <button id="next">↓</button>
@@ -173,73 +176,82 @@ world.getPlayers().forEach(player => {
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-javascript.min.js"></script>
 
 <script>
-  // コピー機能
-  document.querySelectorAll(".copy-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const code = btn.nextElementSibling.querySelector("code").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        btn.textContent = "コピー完了!";
-        setTimeout(() => { btn.textContent = "コピー"; }, 1500);
-      });
+document.querySelectorAll(".copy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const code = btn.nextElementSibling.querySelector("code").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = "コピー完了!";
+      setTimeout(() => { btn.textContent = "コピー"; }, 1500);
     });
   });
+});
 
-  let searchResults = [];
-  let currentIndex = 0;
+let searchResults = [];
+let currentIndex = 0;
+const searchBox = document.getElementById("searchBox");
+const nav = document.getElementById("searchNav");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
 
-  const searchBox = document.getElementById("searchBox");
-  const nav = document.getElementById("searchNav");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
-
-  searchBox.addEventListener("keypress", function(e) {
-    if (e.key !== "Enter") return;
-    const query = searchBox.value.trim().toLowerCase();
-    if (!query) return;
-
-    // ハイライト解除
-    searchResults.forEach(el => el.classList.remove("highlight"));
-
-    searchResults = [];
-
-    // 見出し検索
-    document.querySelectorAll("main h2").forEach(h => {
-      if (h.textContent.toLowerCase().includes(query)) searchResults.push(h);
-    });
-
-    // コード検索
-    document.querySelectorAll("main pre code").forEach(code => {
-      if (code.innerText.toLowerCase().includes(query)) searchResults.push(code.parentElement);
-    });
-
-    if (searchResults.length === 0) {
-      nav.style.display = "none";
-      return;
-    }
-
-    currentIndex = 0;
-    nav.style.display = "flex";
-    scrollToCurrent();
+function clearMarks() {
+  document.querySelectorAll("main pre code mark").forEach(m => {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
   });
+}
 
-  function scrollToCurrent() {
-    const el = searchResults[currentIndex];
-    el.scrollIntoView({behavior: "smooth"});
+function scrollToCurrent() {
+  const el = searchResults[currentIndex];
+  el.scrollIntoView({behavior: "smooth"});
+  if (el.tagName.toLowerCase() === 'h2') {
     el.classList.add("highlight");
     setTimeout(() => el.classList.remove("highlight"), 2000);
+  } else {
+    // コード内の部分一致をハイライト
+    clearMarks();
+    const query = searchBox.value.trim();
+    const codeEl = el.querySelector("code");
+    const regex = new RegExp(`(${query})`, "gi");
+    codeEl.innerHTML = codeEl.innerHTML.replace(regex, `<mark>$1</mark>`);
+  }
+}
+
+searchBox.addEventListener("keypress", function(e) {
+  if (e.key !== "Enter") return;
+  const query = searchBox.value.trim().toLowerCase();
+  if (!query) return;
+
+  clearMarks();
+  searchResults = [];
+  document.querySelectorAll("main h2").forEach(h => {
+    if (h.textContent.toLowerCase().includes(query)) searchResults.push(h);
+  });
+  document.querySelectorAll("main pre code").forEach(code => {
+    if (code.innerText.toLowerCase().includes(query)) searchResults.push(code.parentElement);
+  });
+
+  if (searchResults.length === 0) {
+    nav.style.display = "none";
+    return;
   }
 
-  prevBtn.addEventListener("click", () => {
-    if (searchResults.length === 0) return;
-    currentIndex = (currentIndex - 1 + searchResults.length) % searchResults.length;
-    scrollToCurrent();
-  });
+  currentIndex = 0;
+  nav.style.display = "flex";
+  scrollToCurrent();
+});
 
-  nextBtn.addEventListener("click", () => {
-    if (searchResults.length === 0) return;
-    currentIndex = (currentIndex + 1) % searchResults.length;
-    scrollToCurrent();
-  });
+prevBtn.addEventListener("click", () => {
+  if (searchResults.length === 0) return;
+  currentIndex = (currentIndex - 1 + searchResults.length) % searchResults.length;
+  scrollToCurrent();
+});
+
+nextBtn.addEventListener("click", () => {
+  if (searchResults.length === 0) return;
+  currentIndex = (currentIndex + 1) % searchResults.length;
+  scrollToCurrent();
+});
 </script>
 
 </body>
