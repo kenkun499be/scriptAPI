@@ -8,7 +8,6 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet"/>
 
 <style>
-/* 全体背景と文字 */
 body {
   background-color: #0a0a0a;
   color: #ddd;
@@ -17,7 +16,6 @@ body {
   padding: 0;
 }
 
-/* ヘッダー */
 header {
   position: fixed;
   top: 0;
@@ -31,7 +29,6 @@ header {
   z-index: 100;
 }
 
-/* ハンバーガーメニュー */
 #menuBtn {
   width: 30px;
   height: 22px;
@@ -49,7 +46,6 @@ header {
   transition: 0.3s;
 }
 
-/* 検索ボックス */
 header input[type="text"] {
   padding: 8px 14px;
   font-size: 15px;
@@ -69,7 +65,6 @@ header input[type="text"]:focus {
   border-color: #ff6666;
 }
 
-/* サイドメニュー */
 #sideMenu {
   position: fixed;
   top: 0;
@@ -98,14 +93,12 @@ header input[type="text"]:focus {
   color: #fff;
 }
 
-/* メインコンテンツ */
 main {
   padding: 100px 20px 40px 20px;
   max-width: 900px;
   margin: auto;
 }
 
-/* 見出し */
 h2 {
   margin-top: 50px;
   color: #ff4444;
@@ -118,14 +111,12 @@ h2:hover {
   text-shadow: 0 0 12px #ff4444, 0 0 20px #ff5555;
 }
 
-/* 段落 */
 p {
   margin: 12px 0 20px 0;
   line-height: 1.6;
   color: #ccc;
 }
 
-/* コードブロック */
 .code-block {
   position: relative;
   margin-bottom: 30px;
@@ -147,7 +138,6 @@ pre {
   overflow-x: auto;
 }
 
-/* コピー用ボタン */
 .copy-btn {
   position: absolute;
   top: 12px;
@@ -167,7 +157,6 @@ pre {
   box-shadow: 0 0 8px #ff4444;
 }
 
-/* ハイライト */
 .highlight {
   background-color: rgba(255,0,0,0.3);
   transition: background-color 0.5s;
@@ -179,7 +168,6 @@ mark {
   border-radius: 2px;
 }
 
-/* 検索ナビ */
 #searchNav {
   position: fixed;
   bottom: 25px;
@@ -218,16 +206,12 @@ mark {
   <input type="text" id="searchBox" placeholder="検索...">
 </header>
 
-<!-- サイドメニュー -->
 <div id="sideMenu">
   <a href="https://kenkun499be.github.io/scriptAPI/manifest.html" target="_blank">manifest.json</a>
   <a href="https://kenkun499be.github.io/scriptAPI/index.html" target="_blank">scriptAPI</a>
 </div>
 
 <main>
-  <h2 id="manifest">manifest.json の説明</h2>
-  <p>modやアドオンの基本情報をまとめるファイルです。</p>
-
   <h2 id="setup">ScriptAPIの初期設定</h2>
   <p>ScriptAPIを使うにはまずワールドにモジュールをインポートして初期化します。基本的なイベント購読もここで行えます。</p>
 
@@ -239,6 +223,21 @@ import { world } from "mojang-minecraft";
 
 world.events.entitySpawn.subscribe(event => {
     console.log("Entity spawned:", event.entity.id);
+});
+    </code></pre>
+  </div>
+
+  <h2 id="player">プレイヤー操作の例</h2>
+  <p>ワールド内のプレイヤー情報を取得したり、操作する場合のサンプルです。全プレイヤーの名前をコンソールに出力します。</p>
+
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+// プレイヤー情報取得
+import { world } from "mojang-minecraft";
+
+world.getPlayers().forEach(player => {
+    console.log("Player name:", player.name);
 });
     </code></pre>
   </div>
@@ -272,6 +271,15 @@ let menuOpen = false;
 menuBtn.addEventListener("click", () => {
   menuOpen = !menuOpen;
   sideMenu.style.left = menuOpen ? "0" : "-220px";
+});
+
+// サイドメニュー外クリックで閉じる
+document.addEventListener("click", function(e) {
+  if (sideMenu.contains(e.target) || menuBtn.contains(e.target)) return;
+  if (menuOpen) {
+    menuOpen = false;
+    sideMenu.style.left = "-220px";
+  }
 });
 
 // 検索機能（見出し＋コード）
