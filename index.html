@@ -10,9 +10,9 @@
 
 <style>
   body {
-    background-color: #000;
+    background-color: #0a0a0a; /* 黒に近い背景 */
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
   }
@@ -21,47 +21,53 @@
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 10px;
+    padding: 10px 30px 10px 10px; /* 左に少し余白 */
     display: flex;
     justify-content: flex-end;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(10, 0, 0, 0.85);
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(255,0,0,0.4);
   }
 
   header input[type="text"] {
-    padding: 5px;
+    padding: 6px 10px;
     font-size: 14px;
     border-radius: 4px;
-    border: 1px solid #555;
+    border: 1px solid #900;
     background-color: #111;
-    color: #fff;
+    color: #f55;
+    outline: none;
   }
 
   main {
-    padding: 60px 20px 20px 20px;
+    padding: 70px 20px 20px 20px;
     max-width: 900px;
     margin: auto;
   }
 
   h2 {
     margin-top: 40px;
-    color: #ffcc00;
+    color: #ff4444; /* 赤系見出し */
+    text-shadow: 1px 1px 4px rgba(255,0,0,0.7);
   }
 
   p {
     margin: 10px 0 20px 0;
     line-height: 1.5;
+    color: #ddd;
   }
 
   .code-block {
     position: relative;
     margin-bottom: 30px;
+    border: 1px solid #900;
+    border-radius: 6px;
   }
 
   pre {
     background-color: #111;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 6px;
     overflow-x: auto;
   }
 
@@ -69,17 +75,18 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #222;
+    background-color: #900;
     border: none;
     color: #fff;
     padding: 4px 8px;
     cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
+    transition: 0.2s;
   }
 
   .copy-btn:hover {
-    background-color: #555;
+    background-color: #ff3333;
   }
 </style>
 </head>
@@ -141,7 +148,7 @@ world.getPlayers().forEach(player => {
       for (let h of headings) {
         if (h.textContent.toLowerCase().includes(query)) {
           h.scrollIntoView({behavior: "smooth"});
-          h.style.backgroundColor = "#333";
+          h.style.backgroundColor = "rgba(255,0,0,0.3)";
           setTimeout(() => { h.style.backgroundColor = "transparent"; }, 2000);
           break;
         }
