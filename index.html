@@ -10,7 +10,7 @@
 
 <style>
   body {
-    background-color: #0a0a0a; /* 黒ベース */
+    background-color: #0a0a0a;
     color: #fff;
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
@@ -21,7 +21,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 10px 20px; /* 左右に余白 */
+    padding: 10px 20px;
     display: flex;
     justify-content: flex-end;
     background-color: rgba(10, 0, 0, 0.85);
@@ -66,12 +66,12 @@
     margin-bottom: 30px;
     border-radius: 6px;
     border: 1px solid #ff2222;
-    background: linear-gradient(145deg, #440000, #660000); /* 赤系グラデーション */
+    background: linear-gradient(145deg, #440000, #660000);
     box-shadow: 0 0 10px rgba(255,0,0,0.3);
   }
 
   pre {
-    background: transparent; /* グラデーションを透過で見せる */
+    background: transparent;
     padding: 10px;
     border-radius: 6px;
     overflow-x: auto;
@@ -84,9 +84,9 @@
     background-color: #ff2222;
     border: none;
     color: #fff;
-    padding: 6px 12px; /* 大きめに変更 */
+    padding: 6px 12px;
     cursor: pointer;
-    font-size: 14px; /* 少し大きく */
+    font-size: 14px;
     border-radius: 4px;
     transition: 0.2s;
   }
@@ -95,10 +95,9 @@
     background-color: #ff5555;
   }
 
-  @media (max-width: 500px) {
-    header input[type="text"] {
-      max-width: 200px; /* 小さい画面でもはみ出さない */
-    }
+  .highlight {
+    background-color: rgba(255,0,0,0.3);
+    transition: background-color 0.5s;
   }
 </style>
 </head>
@@ -109,11 +108,9 @@
 </header>
 
 <main>
-  <!-- 説明1 -->
   <h2 id="setup">ScriptAPIの初期設定</h2>
   <p>ScriptAPIを使うにはまずワールドにモジュールをインポートして初期化します。基本的なイベント購読もここで行えます。</p>
 
-  <!-- コード1 -->
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
@@ -126,11 +123,9 @@ world.events.entitySpawn.subscribe(event => {
     </code></pre>
   </div>
 
-  <!-- 説明2 -->
   <h2 id="player">プレイヤー操作の例</h2>
   <p>ワールド内のプレイヤー情報を取得したり、操作する場合のサンプルです。全プレイヤーの名前をコンソールに出力します。</p>
 
-  <!-- コード2 -->
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
@@ -144,30 +139,10 @@ world.getPlayers().forEach(player => {
   </div>
 </main>
 
-<!-- Prism.js -->
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-javascript.min.js"></script>
 
 <script>
-  // 検索機能
-  const searchBox = document.getElementById("searchBox");
-  searchBox.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-      const query = searchBox.value.trim().toLowerCase();
-      if (!query) return;
-
-      const headings = document.querySelectorAll("main h2");
-      for (let h of headings) {
-        if (h.textContent.toLowerCase().includes(query)) {
-          h.scrollIntoView({behavior: "smooth"});
-          h.style.backgroundColor = "rgba(255,0,0,0.3)";
-          setTimeout(() => { h.style.backgroundColor = "transparent"; }, 2000);
-          break;
-        }
-      }
-    }
-  });
-
   // コピー機能
   document.querySelectorAll(".copy-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -177,6 +152,37 @@ world.getPlayers().forEach(player => {
         setTimeout(() => { btn.textContent = "コピー"; }, 1500);
       });
     });
+  });
+
+  // 検索機能（見出し + コード）
+  const searchBox = document.getElementById("searchBox");
+  searchBox.addEventListener("keypress", function(e) {
+    if (e.key !== "Enter") return;
+
+    const query = searchBox.value.trim().toLowerCase();
+    if (!query) return;
+
+    // 見出し検索
+    const headings = document.querySelectorAll("main h2");
+    for (let h of headings) {
+      if (h.textContent.toLowerCase().includes(query)) {
+        h.scrollIntoView({behavior: "smooth"});
+        h.classList.add("highlight");
+        setTimeout(() => h.classList.remove("highlight"), 2000);
+        return;
+      }
+    }
+
+    // コード内検索
+    const codes = document.querySelectorAll("main pre code");
+    for (let code of codes) {
+      if (code.innerText.toLowerCase().includes(query)) {
+        code.scrollIntoView({behavior: "smooth"});
+        code.parentElement.classList.add("highlight");
+        setTimeout(() => code.parentElement.classList.remove("highlight"), 2000);
+        return;
+      }
+    }
   });
 </script>
 
