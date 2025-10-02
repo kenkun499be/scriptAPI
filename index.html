@@ -5,100 +5,124 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ScriptAPI メモ</title>
 
-<!-- Prism.js CSS -->
 <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet"/>
 
 <style>
-  body {
-    background-color: #0a0a0a;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+body {
+  background-color: #0a0a0a;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: flex-end;
-    background-color: rgba(10, 0, 0, 0.85);
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(255,0,0,0.4);
-    box-sizing: border-box;
-  }
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(10,0,0,0.85);
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(255,0,0,0.4);
+}
 
-  header input[type="text"] {
-    padding: 8px 12px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #900;
-    background-color: #111;
-    color: #f55;
-    outline: none;
-    max-width: 300px;
-    width: 100%;
-    box-sizing: border-box;
-  }
+header input[type="text"] {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #900;
+  background-color: #111;
+  color: #f55;
+  outline: none;
+  max-width: 300px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  main {
-    padding: 80px 20px 20px 20px;
-    max-width: 900px;
-    margin: auto;
-  }
+main {
+  padding: 80px 20px 20px 20px;
+  max-width: 900px;
+  margin: auto;
+}
 
-  h2 {
-    margin-top: 40px;
-    color: #ff4444;
-    text-shadow: 1px 1px 4px rgba(255,0,0,0.7);
-  }
+h2 {
+  margin-top: 40px;
+  color: #ff4444;
+  text-shadow: 1px 1px 4px rgba(255,0,0,0.7);
+}
 
-  p {
-    margin: 10px 0 20px 0;
-    line-height: 1.5;
-    color: #ddd;
-  }
+p {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+  color: #ddd;
+}
 
-  .code-block {
-    position: relative;
-    margin-bottom: 30px;
-    border-radius: 6px;
-    border: 1px solid #333; /* 黒系シンプル */
-    background-color: #111; /* 黒系ベース */
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-  }
+.code-block {
+  position: relative;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #111;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
 
-  pre {
-    background: transparent; /* Prismのテーマを使う */
-    padding: 10px;
-    border-radius: 6px;
-    overflow-x: auto;
-  }
+pre {
+  background: transparent;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
 
-  .copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #ff2222; /* 赤で目立たせる */
-    border: none;
-    color: #fff;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: 0.2s;
-  }
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff2222;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
 
-  .copy-btn:hover {
-    background-color: #ff5555;
-  }
+.copy-btn:hover {
+  background-color: #ff5555;
+}
 
-  .highlight {
-    background-color: rgba(255,0,0,0.3);
-    transition: background-color 0.5s;
-  }
+.highlight {
+  background-color: rgba(255,0,0,0.3);
+  transition: background-color 0.5s;
+}
+
+/* 矢印ナビ */
+#searchNav {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 200;
+}
+
+#searchNav button {
+  background-color: #ff2222;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#searchNav button:hover {
+  background-color: #ff5555;
+}
 </style>
 </head>
 <body>
@@ -139,6 +163,12 @@ world.getPlayers().forEach(player => {
   </div>
 </main>
 
+<!-- 矢印ナビ -->
+<div id="searchNav">
+  <button id="prev">↑</button>
+  <button id="next">↓</button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-javascript.min.js"></script>
 
@@ -154,35 +184,61 @@ world.getPlayers().forEach(player => {
     });
   });
 
-  // 検索機能（見出し + コード）
+  let searchResults = [];
+  let currentIndex = 0;
+
   const searchBox = document.getElementById("searchBox");
+  const nav = document.getElementById("searchNav");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+
   searchBox.addEventListener("keypress", function(e) {
     if (e.key !== "Enter") return;
-
     const query = searchBox.value.trim().toLowerCase();
     if (!query) return;
 
+    // ハイライト解除
+    searchResults.forEach(el => el.classList.remove("highlight"));
+
+    searchResults = [];
+
     // 見出し検索
-    const headings = document.querySelectorAll("main h2");
-    for (let h of headings) {
-      if (h.textContent.toLowerCase().includes(query)) {
-        h.scrollIntoView({behavior: "smooth"});
-        h.classList.add("highlight");
-        setTimeout(() => h.classList.remove("highlight"), 2000);
-        return;
-      }
+    document.querySelectorAll("main h2").forEach(h => {
+      if (h.textContent.toLowerCase().includes(query)) searchResults.push(h);
+    });
+
+    // コード検索
+    document.querySelectorAll("main pre code").forEach(code => {
+      if (code.innerText.toLowerCase().includes(query)) searchResults.push(code.parentElement);
+    });
+
+    if (searchResults.length === 0) {
+      nav.style.display = "none";
+      return;
     }
 
-    // コード内検索
-    const codes = document.querySelectorAll("main pre code");
-    for (let code of codes) {
-      if (code.innerText.toLowerCase().includes(query)) {
-        code.scrollIntoView({behavior: "smooth"});
-        code.parentElement.classList.add("highlight");
-        setTimeout(() => code.parentElement.classList.remove("highlight"), 2000);
-        return;
-      }
-    }
+    currentIndex = 0;
+    nav.style.display = "flex";
+    scrollToCurrent();
+  });
+
+  function scrollToCurrent() {
+    const el = searchResults[currentIndex];
+    el.scrollIntoView({behavior: "smooth"});
+    el.classList.add("highlight");
+    setTimeout(() => el.classList.remove("highlight"), 2000);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (searchResults.length === 0) return;
+    currentIndex = (currentIndex - 1 + searchResults.length) % searchResults.length;
+    scrollToCurrent();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (searchResults.length === 0) return;
+    currentIndex = (currentIndex + 1) % searchResults.length;
+    scrollToCurrent();
   });
 </script>
 
