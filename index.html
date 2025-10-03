@@ -255,8 +255,6 @@ system.runInterval(() => {
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
-import { system, world } from "@minecraft/server";
-
 system.runInterval(() => {
     for (const player of world.getAllPlayers()) {
         if (player.isJumping) player.runCommand(`say jumping`);
@@ -271,8 +269,6 @@ system.runInterval(() => {
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
-import { system, world } from "@minecraft/server";
-
 system.runInterval(() => {
     for (const player of world.getAllPlayers()) {
         player.runCommand(`say ${player.name}`);
