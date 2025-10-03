@@ -280,6 +280,22 @@ system.runInterval(() => {
 });
     </code></pre>
   </div>
+
+  <h2 id="player">ノックバック</h2>
+  <p>エンティティやプレイヤーをノックバックさせます<br>ここでは棒を使用すると前に飛ぶコードを紹介します<br></p>
+
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+world.afterEvents.itemUse.subscribe(ev => {
+    const { source, itemStack } = ev
+    if (itemStack.typeId === "minecraft:stick") {
+      const view = source.getViewDirection()
+      source.applyKnockback(view.x, view.z, 6, view.y + view.y + view.y)
+    }
+  })
+    </code></pre>
+  </div>
 </main>
 
 <div id="searchNav">
