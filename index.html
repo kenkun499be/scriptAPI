@@ -221,19 +221,18 @@ mark {
 
 <main>
   <p>初めに、このWebページはscriptAPIを 学ぶためのページではなくscriptAPIがある程度分かる人へのメモや紹介感覚で理解してください</p>
-  <h2 id="setup">ScriptAPIの初期設定</h2>
-  <p>ScriptAPIを使うにはまずワールドにモジュールをインポートして初期化します。基本的なイベント購読もここで行えます。</p>
+  <h2 id="setup">燃やす</h2>
+  <p>ここではtagがついている人を燃やすコードを紹介します</p>
 
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
-// ScriptAPI 初期設定例
-import { world } from "mojang-minecraft";
-
-world.events.entitySpawn.subscribe(event => {
-    console.log("Entity spawned:", event.entity.id);
-});
-    </code></pre>
+system.runInterval(() => {
+    for (const entity of mc.world.getDimension("overworld").getEntities({tags:["fire"]})) {
+        entity.setOnFire(10, true);
+        entity.runCommand("tag @s remove fire");
+    }
+});    </code></pre>
   </div>
 
   <h2 id="player">プレイヤー操作の例</h2>
