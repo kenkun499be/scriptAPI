@@ -259,9 +259,10 @@ import { system, world } from "@minecraft/server";
 
 system.runInterval(() => {
     for (const player of world.getAllPlayers()) {
-        if (player.isJumping) player.runCommand(`say jumping`);
-      });
-});    </code></pre>
+        player.sendMessage(`player is jumping: ${player.isJumping}`);
+    }
+});
+    </code></pre>
   </div>
 </main>
 
