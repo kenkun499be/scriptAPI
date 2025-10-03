@@ -248,6 +248,21 @@ system.runInterval(() => {
     }
 });    </code></pre>
   </div>
+
+  <h2 id="player">名前変更</h2>
+  <p>エンティティやプレイヤーのジャンプを検知できます<br>ここではプレイヤーがジャンプするとコマンドを実行するコードを紹介します</p>
+
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+//ジャンプ
+import { system, world } from "@minecraft/server";
+
+system.runInterval(() => {
+    for (const player of world.getAllPlayers()) {
+        if (player.isJumping) player.runCommand(`say jumping`);
+});    </code></pre>
+  </div>
 </main>
 
 <div id="searchNav">
