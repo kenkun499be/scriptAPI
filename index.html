@@ -223,7 +223,7 @@ mark {
   <h2 id="setup">はじめに</h2>
   <p>このWebページはscriptAPIを学ぶためのページではなく、scriptAPIに関するある程度の知識がある人へのメモや紹介感覚で理解してください</p>
   <h2 id="setup">燃やす</h2>
-  <p>ここではtagがついている人を燃やすコードを紹介します</p>
+  <p>エンティティやプレイヤーを燃やすことができます<br>ここではtagがついている人を燃やすコードを紹介します</p>
 
   <div class="code-block">
     <button class="copy-btn">コピー</button>
@@ -236,19 +236,17 @@ system.runInterval(() => {
 });    </code></pre>
   </div>
 
-  <h2 id="player">プレイヤー操作の例</h2>
-  <p>ワールド内のプレイヤー情報を取得したり、操作する場合のサンプルです。全プレイヤーの名前をコンソールに出力します。</p>
+  <h2 id="player">名前変更</h2>
+  <p>エンティティやプレイヤーの名前を変更できます<br>ここではtagにaaaがついているエンティティの名前をaaaに変更するコードを紹介します</p>
 
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
-// プレイヤー情報取得
-import { world } from "mojang-minecraft";
-
-world.getPlayers().forEach(player => {
-    console.log("Player name:", player.name);
-});
-    </code></pre>
+system.runInterval(() => {
+    for (const entity of mc.world.getDimension("overworld").getEntities({tags:["aaa"]})) {
+        entity.nameTag = `aaa`
+    }
+});    </code></pre>
   </div>
 </main>
 
