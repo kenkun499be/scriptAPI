@@ -237,7 +237,7 @@ system.runInterval(() => {
   </div>
 
   <h2 id="player">名前変更</h2>
-  <p>エンティティやプレイヤーの名前を変更できます<br>ここではtagにaaaがついているエンティティの名前をaaaに変更するコードを紹介します</p>
+  <p>エンティティやプレイヤーの名前を変更できます<br>ここではtagにaaaがついているエンティティの名前をaaaに変更するコードと、tagにredがついてる人の名前を赤にするコードを紹介します</p>
 
   <div class="code-block">
     <button class="copy-btn">コピー</button>
@@ -247,6 +247,13 @@ system.runInterval(() => {
         entity.nameTag = `aaa`
     }
 });    </code></pre>
+    <pre><code class="language-js">
+system.runInterval(() => {
+    for (const entity of mc.world.getDimension("overworld").getEntities({tags:["red"]})) {
+        entity.nameTag = `§c${entity.name}`
+    }
+});    
+    </code></pre>
   </div>
 
   <h2 id="player">行動検知</h2>
