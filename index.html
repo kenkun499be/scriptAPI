@@ -287,7 +287,7 @@ world.afterEvents.itemUse.subscribe(ev => {
     const { source, itemStack } = ev
     if (itemStack.typeId === "minecraft:stick") {
       const view = source.getViewDirection()
-      source.applyKnockback(view.x, view.z, 6, view.y + view.y + view.y)
+      source.applyKnockback(view.x, view.z, 6, view.y * 3)
     }
   })
     </code></pre>
