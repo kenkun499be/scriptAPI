@@ -259,7 +259,23 @@ import { system, world } from "@minecraft/server";
 
 system.runInterval(() => {
     for (const player of world.getAllPlayers()) {
-        player.sendMessage(`player is jumping: ${player.isJumping}`);
+        if (player.isJumping) player.runCommand(`say jumping`);
+    }
+});
+    </code></pre>
+  </div>
+
+  <h2 id="player">名前検知,代入</h2>
+  <p>エンティティやプレイヤーの名前を検知できます<br>ここではプレイヤーが自分の名前を言い続けるコードを紹介します<br></p>
+
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+import { system, world } from "@minecraft/server";
+
+system.runInterval(() => {
+    for (const player of world.getAllPlayers()) {
+        player.runCommand(`say ${player.name}`);
     }
 });
     </code></pre>
