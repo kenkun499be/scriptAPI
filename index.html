@@ -221,7 +221,7 @@ mark {
 
 <main>
   <h2 id="setup">はじめに</h2>
-  <p>このWebページはscriptAPIを学ぶためのページではなく、scriptAPIに関するある程度の知識がある人へのメモや紹介感覚で理解してください</p>
+  <p>現時点ではscriptAPIを学ぶためのページではなく、scriptAPIに関するある程度の知識がある人へのメモや紹介感覚です<br>現在進行形で製作中ですので、どんどん新しい要素を追加します。ある程度紹介が終わり次第、アドオン初心者でも学べるようなページにしたいと考えています</p>
   <h2 id="setup">燃やす</h2>
   <p>エンティティやプレイヤーを燃やすことができます<br>ここではtagがついている人を燃やすコードを紹介します</p>
 
@@ -301,7 +301,7 @@ world.afterEvents.itemUse.subscribe(ev => {
       const view = source.getViewDirection()
       source.applyKnockback(view.x, view.z, 6, view.y * 3)
     }
-  })
+})
     </code></pre>
   </div>
 
@@ -313,7 +313,7 @@ world.afterEvents.itemUse.subscribe(ev => {
     <pre><code class="language-js">
 world.afterEvents.entityHitEntity.subscribe(({hitEntity , damagingEntity}) => {
     hitEntity.addTag(`${damagingEntity.name}`)
-  });
+});
     </code></pre>
   </div>
 </main>
