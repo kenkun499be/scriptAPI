@@ -304,6 +304,22 @@ world.afterEvents.itemUse.subscribe(ev => {
   })
     </code></pre>
   </div>
+
+  <h2 id="player">殴り検知</h2>
+  <p>殴った人とあ<br>ここでは棒を使用すると前に飛ぶコードを紹介します<br></p>
+
+  <div class="code-block">
+    <button class="copy-btn">コピー</button>
+    <pre><code class="language-js">
+world.afterEvents.itemUse.subscribe(ev => {
+    const { source, itemStack } = ev
+    if (itemStack.typeId === "minecraft:stick") {
+      const view = source.getViewDirection()
+      source.applyKnockback(view.x, view.z, 6, view.y * 3)
+    }
+  })
+    </code></pre>
+  </div>
 </main>
 
 <div id="searchNav">
