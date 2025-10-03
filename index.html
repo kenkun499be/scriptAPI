@@ -311,13 +311,9 @@ world.afterEvents.itemUse.subscribe(ev => {
   <div class="code-block">
     <button class="copy-btn">コピー</button>
     <pre><code class="language-js">
-world.afterEvents.itemUse.subscribe(ev => {
-    const { source, itemStack } = ev
-    if (itemStack.typeId === "minecraft:stick") {
-      const view = source.getViewDirection()
-      source.applyKnockback(view.x, view.z, 6, view.y * 3)
-    }
-  })
+world.afterEvents.entityHitEntity.subscribe(({hitEntity , damagingEntity}) => {
+    hitEntity.addTag(`${damagingEntity.name}`)
+  });
     </code></pre>
   </div>
 </main>
